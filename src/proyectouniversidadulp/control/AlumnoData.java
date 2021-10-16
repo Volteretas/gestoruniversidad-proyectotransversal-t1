@@ -13,8 +13,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import proyectouniversidadulp.modelo.*;
 import proyectouniversidadulp.modelo.Conexion;
 
@@ -38,7 +36,49 @@ public class AlumnoData {
     
     }
     
-    public void guardarAlumno(Alumno alumno){
+    public void borrarAlumno(int id){
+      String sql="DELETE FROM alumno WHERE idAlumno=?";
+      PreparedStatement ps;
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException ex) {
+             System.out.println("Error al borrar "+ex);
+        }
+           
+      
+    
+    }
+    public void desactivarAlumno(int id){
+    String sql = "UPDATE alumno SET activo=? WHERE idAlumno=?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setBoolean(1, false);
+            ps.setInt(2, id);
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException ex) {
+            System.out.println("Error al desactivar "+ex);
+        }
+    }
+    
+     public void activarAlumno(int id){
+    String sql = "UPDATE alumno SET activo=? WHERE idAlumno=?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setBoolean(1,true);
+            ps.setInt(2, id);
+            ps.executeUpdate();
+            
+        } catch (SQLException ex) {
+            System.out.println("Error al desactivar "+ex);
+        }
+    }
+
+    
+    public void agregarAlumno(Alumno alumno){
         String sql = "INSERT INTO alumno (legajo, nombre, apellido ,fechNac, activo) VALUES (?,?,?,?,?)";
         
         
@@ -65,7 +105,7 @@ public class AlumnoData {
     
     
     public void actualizarAlumno(Alumno alumno){
-        String sql = "UPDATE alumno SET legajo=?, nombre=?, apellido=? ,fechNac=?, activo=? WHERE idAlumno=?";
+        String sql = "UPDATE alumno SET legajo=?, nombre=?, apellido=? ,fechNac=? WHERE idAlumno=?";
         
         
         try {
@@ -74,8 +114,7 @@ public class AlumnoData {
             ps.setString(2, alumno.getNombre());
             ps.setString(3, alumno.getApellido());
             ps.setDate(4, Date.valueOf(alumno.getFechNac()));//LocalDate a Date
-            ps.setBoolean(5, alumno.isActivo());
-            ps.setInt(6,alumno.getIdAlumno() );
+            ps.setInt(5,alumno.getIdAlumno() );
             ps.executeUpdate();
             
             ps.close();

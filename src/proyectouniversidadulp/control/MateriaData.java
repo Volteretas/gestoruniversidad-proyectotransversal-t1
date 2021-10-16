@@ -32,7 +32,49 @@ public class MateriaData {
     
     }
     
-    public void guardarMateria(Materia materia){
+    public void borrarMateria(int id){
+      String sql="DELETE FROM materia WHERE idMateria=?";
+      PreparedStatement ps;
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException ex) {
+             System.out.println("Error al borrar "+ex);
+        }
+           
+      
+    
+    }
+    public void desactivarMateria(int id){
+    String sql = "UPDATE materia SET activo=? WHERE idMateria=?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setBoolean(1, false);
+            ps.setInt(2, id);
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException ex) {
+            System.out.println("Error al desactivar "+ex);
+        }
+    }
+    
+     public void activarMateria(int id){
+    String sql = "UPDATE materia SET activo=? WHERE idMateria=?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setBoolean(1,true);
+            ps.setInt(2, id);
+            ps.executeUpdate();
+            
+        } catch (SQLException ex) {
+            System.out.println("Error al desactivar "+ex);
+        }
+    }
+
+    
+    public void agregarMateria(Materia materia){
         String sql = "INSERT INTO materia ( nombre, anio, activo) VALUES (?,?,?)";
         
         try {

@@ -13,6 +13,7 @@ import proyectouniversidadulp.control.InscripcionData;
 import proyectouniversidadulp.control.MateriaData;
 import proyectouniversidadulp.modelo.Alumno;
 import proyectouniversidadulp.modelo.Conexion;
+import proyectouniversidadulp.modelo.Inscripcion;
 import proyectouniversidadulp.modelo.Materia;
 
 /**
@@ -32,8 +33,21 @@ public class ProyectoUniversidadULP {
             MateriaData md = new MateriaData(conexion);
             InscripcionData id = new InscripcionData(conexion);
             
-            Materia m =  md.buscarMateria(3);
-            Alumno a = ad.buscarAlumno(7);
+           // Materia m = new Materia("Mecanografia", 1, true);
+           // md.agregarMateria(m);
+            
+
+            Alumno a = ad.buscarAlumno(6);
+            Materia m = md.buscarMateria(3);
+            
+            Inscripcion i = new Inscripcion(a, m);
+            
+            id.inscribirAlumno(i);
+            
+            System.out.println(id.obtenerMateriasCursadas(6));
+            
+//            Materia m =  md.buscarMateria(3);
+//            Alumno a = new Alumno(999, "Juan", "Sanchez", LocalDate.of(2000,2, 24), true);
 //            
 //            //ad.guardarAlumno(a);
 //            
@@ -51,9 +65,11 @@ public class ProyectoUniversidadULP {
 //            id.inscribirAlumno(ad.buscarAlumno(7), md.buscarMateria(3));
 //            
 //            id.desinscribirAlumno(ad.buscarAlumno(7), md.buscarMateria(3));
-            
-            id.agregarNota(a, m, 10);
-            
+//            
+//            ad.guardarAlumno(a);
+//            id.inscribirAlumno(a, m);
+//            id.agregarNota(a, m, 7);
+//            
         } catch (ClassNotFoundException ex) {
             System.out.println("En el main"+ ex);
         }
