@@ -26,6 +26,14 @@ public class Alumno {
         this.fechNac = fechNac;
         this.activo = activo;
     }
+    
+    public Alumno(int idAlumno, int legajo, String nombre, String apellido, LocalDate fechNac) {
+        this.idAlumno = idAlumno;
+        this.legajo = legajo;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.fechNac = fechNac;
+    }
 
     public Alumno(int idAlumno, int legajo, String nombre, String apellido, LocalDate fechNac, boolean activo) {
         this.idAlumno = idAlumno;
@@ -89,7 +97,7 @@ public class Alumno {
 
     @Override
     public String toString() {
-        return "Alumno{" + "idAlumno=" + idAlumno + ", legajo=" + legajo + ", nombre=" + nombre + ", apellido=" + apellido + ", fechNac=" + fechNac + ", activo=" + activo + '}';
+        return nombre + " " + apellido;
     }
     
     

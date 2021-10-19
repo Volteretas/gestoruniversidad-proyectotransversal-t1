@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import org.mariadb.jdbc.internal.util.dao.PrepareResult;
 import proyectouniversidadulp.modelo.Alumno;
 import proyectouniversidadulp.modelo.Conexion;
@@ -39,17 +40,23 @@ public class InscripcionData {
     
     public void inscribirAlumno(Inscripcion ins){
         String sql = "INSERT INTO inscripcion (idAlumno, idMateria) VALUES (?,?)";
-        
-        try{
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, ins.getAlumno().getIdAlumno());
-            ps.setInt(2, ins.getMateria().getIdMateria());
+        if(ins.getAlumno().isActivo() && ins.getMateria().isActivo()){
+           try{
+                PreparedStatement ps = con.prepareStatement(sql);
+                ps.setInt(1, ins.getAlumno().getIdAlumno());
+                ps.setInt(2, ins.getMateria().getIdMateria());
             
-            ps.executeUpdate();
-            ps.close();
-        }catch (SQLException ex){
-            System.out.println("Error al inscribir " + ex);
-        }
+                ps.executeUpdate();
+                ps.close();
+            
+                JOptionPane.showMessageDialog(null, "Se inscribio correctamente");
+            }catch (SQLException ex){
+                JOptionPane.showMessageDialog(null, "Error al inscribir");
+                System.out.println("Error al inscribir " + ex);
+            } 
+        }else{
+            System.out.println("No se puede inscribir alumno/materia no activa");
+        }  
     }
     
     public void desinscribirAlumno (Inscripcion ins){
@@ -62,20 +69,23 @@ public class InscripcionData {
             
             ps.executeUpdate();
             ps.close();
+            
+            JOptionPane.showMessageDialog(null, "Se desinscribio correctamente");
         }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, "Error al desinscribir");
             System.out.println("Error al des-inscribir alumno " + ex);
         }
                 
     }
     
-    public void agregarNota (Alumno alum, Materia mat, double nota){
+    public void agregarNota (Inscripcion insc, double nota){
         String sql = "UPDATE inscripcion SET nota=? WHERE idAlumno=? AND idMateria =?";
         
         try {
             PreparedStatement ps= con.prepareStatement(sql);
             ps.setDouble(1, nota);
-            ps.setInt(2, alum.getIdAlumno());
-            ps.setInt(3, mat.getIdMateria());
+            ps.setInt(2, insc.getAlumno().getIdAlumno());
+            ps.setInt(3, insc.getMateria().getIdMateria());
             ps.executeUpdate();
             ps.close();
         }catch(SQLException ex){
@@ -84,7 +94,7 @@ public class InscripcionData {
     }
     
     public List obtenerAlumnosMateria(int idMat){
-        String sql="SELECT materia.idMateria, materia.nombre, materia.anio, materia.activo FROM materia, inscripcion WHERE inscripcion.idAlumno = ? AND materia.idMateria != inscripcion.idMateria;";
+        String sql="SELECT a.idAlumno, a.legajo, a.nombre, a.apellido, a.fechNac, a.activo FROM alumno a, inscripcion i WHERE i.idMateria = ? AND i.idAlumno = a.idAlumno; ";
         List<Alumno> alumnos = new ArrayList<>();
         Alumno alumno=null;
         try {
@@ -111,7 +121,7 @@ public class InscripcionData {
     }
     
     public List obtenerInscripciones() {
-        String sql="SELECT * FROM inscripcion;";
+        String sql="SELECT * FROM inscripcion ORDER BY idAlumno ASC;";
         List<Inscripcion> inscripciones = new ArrayList<>();
         Inscripcion inscripcion=null;
         
@@ -161,7 +171,7 @@ public class InscripcionData {
    }
    
    public List obtenerMateriasNoCursadas(int idAlumno){
-       String sql="SELECT m.idMateria,m.nombre, m.anio, m.activo FROM inscripcion i, materia m WHERE i.idAlumno = ? AND i.idMateria = m.idMateria;";
+       String sql="SELECT * FROM materia WHERE activo = 1 AND idMateria NOT IN (SELECT idMateria FROM inscripcion WHERE idAlumno = ? AND activo = 1);";
        List<Materia> materias = new ArrayList<>();
        Materia materia = null;
        

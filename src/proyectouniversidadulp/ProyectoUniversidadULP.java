@@ -33,18 +33,26 @@ public class ProyectoUniversidadULP {
             MateriaData md = new MateriaData(conexion);
             InscripcionData id = new InscripcionData(conexion);
             
+            
+            Alumno a = ad.buscarAlumno(6);
+            Materia m = md.buscarMateria(5);
+            Inscripcion ins = new Inscripcion(a, m);
+            
+            
+            id.inscribirAlumno(ins);
+            
            // Materia m = new Materia("Mecanografia", 1, true);
            // md.agregarMateria(m);
             
 
-            Alumno a = ad.buscarAlumno(6);
-            Materia m = md.buscarMateria(3);
+//            Alumno a = ad.buscarAlumno(6);
+//            Materia m = md.buscarMateria(3);
+//            
+//            Inscripcion i = new Inscripcion(a, m);
+//            
+//            id.inscribirAlumno(i);
             
-            Inscripcion i = new Inscripcion(a, m);
-            
-            id.inscribirAlumno(i);
-            
-            System.out.println(id.obtenerMateriasCursadas(6));
+            System.out.println(ad.obtenerAlumnos());
             
 //            Materia m =  md.buscarMateria(3);
 //            Alumno a = new Alumno(999, "Juan", "Sanchez", LocalDate.of(2000,2, 24), true);

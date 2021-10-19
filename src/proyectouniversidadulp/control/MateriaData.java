@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import proyectouniversidadulp.modelo.*;
 import proyectouniversidadulp.modelo.Conexion;
 /**
@@ -27,26 +28,12 @@ public class MateriaData {
             con = conexion.getConexion();
             
         } catch (SQLException ex) {
-            System.out.println("Error en la conexion ");
+            JOptionPane.showMessageDialog(null, "Error al conectar " + ex);
         }
     
     }
     
-    public void borrarMateria(int id){
-      String sql="DELETE FROM materia WHERE idMateria=?";
-      PreparedStatement ps;
-        try {
-            ps = con.prepareStatement(sql);
-            ps.setInt(1, id);
-            ps.executeUpdate();
-            ps.close();
-        } catch (SQLException ex) {
-             System.out.println("Error al borrar "+ex);
-        }
-           
-      
     
-    }
     public void desactivarMateria(int id){
     String sql = "UPDATE materia SET activo=? WHERE idMateria=?";
         try {
@@ -56,7 +43,7 @@ public class MateriaData {
             ps.executeUpdate();
             ps.close();
         } catch (SQLException ex) {
-            System.out.println("Error al desactivar "+ex);
+            JOptionPane.showMessageDialog(null, "Error al desactivar " + ex);
         }
     }
     
@@ -69,7 +56,7 @@ public class MateriaData {
             ps.executeUpdate();
             
         } catch (SQLException ex) {
-            System.out.println("Error al desactivar "+ex);
+            JOptionPane.showMessageDialog(null, "Error al activar " + ex);
         }
     }
 
@@ -91,29 +78,58 @@ public class MateriaData {
             }
             ps.close();
         }catch(SQLException ex){
-            System.out.println("Error al insertar el registro" + ex);
+            JOptionPane.showMessageDialog(null, "Error al insertar el registro " + ex);
         }
     }
     
-    public boolean actualizarMateria(Materia materia) {
-        boolean actualizada = true;
-        String sql = "UPDATE materia SET nombre=?,anio=?<activo=? WHERE idMateria=?";
+    public void actualizarMateria(Materia materia) {
+        String sql = "UPDATE materia SET nombre=?,anio=? WHERE idMateria=?";
         
         try{
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, materia.getNombre());
             ps.setInt(2, materia.getAnio());
-            ps.setBoolean(3, materia.isActivo());
-            ps.setInt(4, materia.getIdMateria());
+            ps.setInt(3, materia.getIdMateria());
             ps.executeUpdate();
             
             ps.close();
+            
+            JOptionPane.showMessageDialog(null, "Se agrego correctamente");
+            
         }catch(SQLException ex){
-            actualizada = false;
             System.out.println("Error al intentar modificar registro" + ex);
         }
         
-        return actualizada;
+    }
+    
+    public List<Materia> obtenerMateria(boolean bol) {
+        List<Materia> materias = new ArrayList<>();
+        Materia materia = null;
+        String sql;
+        
+        if(bol){
+            sql = "SELECT * FROM materia WHERE activo=true ORDER BY nombre ASC;";
+        }else{
+            sql = "SELECT * FROM materia WHERE activo=false ORDER BY nombre ASC;";
+        }     
+        try{
+            PreparedStatement ps = con.prepareStatement(sql);
+            
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                materia = new Materia();
+                materia.setIdMateria(rs.getInt("idMateria"));
+                materia.setNombre(rs.getString("nombre"));
+                materia.setAnio(rs.getInt("anio"));
+                materia.setActivo(rs.getBoolean("activo"));
+                
+                materias.add(materia);
+            }
+            ps.close();
+        }catch(SQLException ex){
+            System.out.println("Error al buscar registros");
+        }
+        return materias;
     }
     
     public List<Materia> obtenerMateria() {
@@ -124,7 +140,7 @@ public class MateriaData {
         List<Materia> materias = new ArrayList<>();
         Materia materia = null;
         
-        String sql = "SELECT * FROM materia WHERE nombre LIKE '%" + string + "%'";
+        String sql = "SELECT * FROM materia WHERE nombre LIKE '%" + string + "%' ORDER BY nombre ASC;";
         
         try{
             PreparedStatement ps = con.prepareStatement(sql);

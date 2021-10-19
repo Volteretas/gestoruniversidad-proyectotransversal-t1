@@ -11,8 +11,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import proyectouniversidadulp.modelo.*;
 import proyectouniversidadulp.modelo.Conexion;
 
@@ -36,21 +39,6 @@ public class AlumnoData {
     
     }
     
-    public void borrarAlumno(int id){
-      String sql="DELETE FROM alumno WHERE idAlumno=?";
-      PreparedStatement ps;
-        try {
-            ps = con.prepareStatement(sql);
-            ps.setInt(1, id);
-            ps.executeUpdate();
-            ps.close();
-        } catch (SQLException ex) {
-             System.out.println("Error al borrar "+ex);
-        }
-           
-      
-    
-    }
     public void desactivarAlumno(int id){
     String sql = "UPDATE alumno SET activo=? WHERE idAlumno=?";
         try {
@@ -97,6 +85,7 @@ public class AlumnoData {
             }
             ps.close();
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al insertar " + ex);
             System.out.println("Error al insertar "+ex);
         }
         
@@ -118,6 +107,9 @@ public class AlumnoData {
             ps.executeUpdate();
             
             ps.close();
+            
+            JOptionPane.showMessageDialog(null, "Se agrego correctamente");
+            
         } catch (SQLException ex) {
             System.out.println("Error al modificar "+ex);
         }
@@ -141,10 +133,47 @@ public class AlumnoData {
                 alumno.setIdAlumno(rs.getInt("idAlumno"));
                 alumno.setLegajo(rs.getInt(2));
                 alumno.setNombre(rs.getString(3));
-               alumno.setApellido(rs.getString(4));
+                alumno.setApellido(rs.getString(4));
                 alumno.setFechNac(rs.getDate(5).toLocalDate());  //date a LocalDate
-                 alumno.setActivo(rs.getBoolean(6));
-                 alumnos.add(alumno);
+                alumno.setActivo(rs.getBoolean(6));
+                alumnos.add(alumno);
+            }          
+            
+            ps.close();
+            
+        } catch (SQLException ex) {
+            System.out.println("Error al buscar ");
+        }    
+       return alumnos;    
+       
+    }
+    
+    public List<Alumno> obtenerAlumnos(boolean bol){
+    List<Alumno> alumnos= new ArrayList<>();
+        
+    Alumno alumno=null;
+    String sql;
+    if(bol){
+        sql="SELECT * FROM alumno WHERE activo=true";
+    }else{
+        sql="SELECT * FROM alumno WHERE activo=false";
+    }
+    
+    
+    
+        try {
+            PreparedStatement ps= con.prepareStatement(sql);
+                       
+            ResultSet rs =ps.executeQuery();
+            while (rs.next()){
+                alumno = new Alumno();
+                alumno.setIdAlumno(rs.getInt("idAlumno"));
+                alumno.setLegajo(rs.getInt(2));
+                alumno.setNombre(rs.getString(3));
+                alumno.setApellido(rs.getString(4));
+                alumno.setFechNac(rs.getDate(5).toLocalDate());  //date a LocalDate
+                alumno.setActivo(rs.getBoolean(6));
+                alumnos.add(alumno);
             }          
             
             ps.close();
@@ -171,9 +200,9 @@ public class AlumnoData {
                 alumno.setIdAlumno(rs.getInt("idAlumno"));
                 alumno.setLegajo(rs.getInt(2));
                 alumno.setNombre(rs.getString(3));
-               alumno.setApellido(rs.getString(4));
+                alumno.setApellido(rs.getString(4));
                 alumno.setFechNac(rs.getDate(5).toLocalDate());  //date a LocalDate
-                 alumno.setActivo(rs.getBoolean(6));
+                alumno.setActivo(rs.getBoolean(6));
             }
             
             

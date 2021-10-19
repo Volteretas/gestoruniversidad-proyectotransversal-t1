@@ -27,7 +27,7 @@ public class Materia {
         this.anio = anio;
         this.activo = activo;
     }
-
+      
     public Materia() {
     }
 
@@ -65,7 +65,7 @@ public class Materia {
 
     @Override
     public String toString() {
-        return "Materia{" + "idMateria=" + idMateria + ", nombre=" + nombre + ", anio=" + anio + ", activo=" + activo + '}';
+        return nombre + " " + anio;
     }
     
     
