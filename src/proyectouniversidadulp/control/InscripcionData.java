@@ -93,7 +93,7 @@ public class InscripcionData {
         }
     }
     
-    public List obtenerAlumnosMateria(int idMat){
+    public List<Alumno> obtenerAlumnosMateria(int idMat){
         String sql="SELECT a.idAlumno, a.legajo, a.nombre, a.apellido, a.fechNac, a.activo FROM alumno a, inscripcion i WHERE i.idMateria = ? AND i.idAlumno = a.idAlumno; ";
         List<Alumno> alumnos = new ArrayList<>();
         Alumno alumno=null;
@@ -120,7 +120,7 @@ public class InscripcionData {
         
     }
     
-    public List obtenerInscripciones() {
+    public List<Inscripcion> obtenerInscripciones() {
         String sql="SELECT * FROM inscripcion ORDER BY idAlumno ASC;";
         List<Inscripcion> inscripciones = new ArrayList<>();
         Inscripcion inscripcion=null;
@@ -145,7 +145,7 @@ public class InscripcionData {
         return inscripciones;
     }
     
-   public List obtenerMateriasCursadas(int idAlumno){
+   public List<Materia> obtenerMateriasCursadas(int idAlumno){
        String sql="SELECT m.idMateria,m.nombre, m.anio, m.activo FROM inscripcion i, materia m WHERE i.idAlumno = ? AND i.idMateria = m.idMateria;";
        List<Materia> materias = new ArrayList<>();
        Materia materia = null;
@@ -170,7 +170,7 @@ public class InscripcionData {
        return materias;
    }
    
-   public List obtenerMateriasNoCursadas(int idAlumno){
+   public List<Materia> obtenerMateriasNoCursadas(int idAlumno){
        String sql="SELECT * FROM materia WHERE activo = 1 AND idMateria NOT IN (SELECT idMateria FROM inscripcion WHERE idAlumno = ? AND activo = 1);";
        List<Materia> materias = new ArrayList<>();
        Materia materia = null;

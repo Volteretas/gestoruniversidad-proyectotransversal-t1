@@ -132,15 +132,12 @@ public class MateriaData {
         return materias;
     }
     
-    public List<Materia> obtenerMateria() {
-        return obtenerMateria("");
-    }
     
-    public List<Materia> obtenerMateria (String string){
+    public List<Materia> obtenerMateria(){
         List<Materia> materias = new ArrayList<>();
         Materia materia = null;
         
-        String sql = "SELECT * FROM materia WHERE nombre LIKE '%" + string + "%' ORDER BY nombre ASC;";
+        String sql = "SELECT * FROM materia ORDER BY nombre ASC;";
         
         try{
             PreparedStatement ps = con.prepareStatement(sql);
