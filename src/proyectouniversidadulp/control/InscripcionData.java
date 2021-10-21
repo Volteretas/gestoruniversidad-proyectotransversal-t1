@@ -195,5 +195,4 @@ public class InscripcionData {
        return materias;
    }
     
-    //asdfasdf
 }
