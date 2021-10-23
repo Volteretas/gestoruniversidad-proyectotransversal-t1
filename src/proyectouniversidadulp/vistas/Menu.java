@@ -5,12 +5,20 @@
  */
 package proyectouniversidadulp.vistas;
 
+import com.formdev.flatlaf.FlatDarkLaf;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import proyectouniversidadulp.modelo.Conexion;
+import javax.swing.UIManager;
+
 
 /**
  *
@@ -21,7 +29,14 @@ public class Menu extends javax.swing.JFrame {
      * Creates new form Menu
      */
     
+    
+    
     public Menu() {
+        try{
+        UIManager.setLookAndFeel(new FlatDarkLaf());
+        }catch(Exception ex){
+        ex.printStackTrace();
+        }
         initComponents();
         setLocationRelativeTo(null);
     }
@@ -35,15 +50,22 @@ public class Menu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        ImageIcon icon = new ImageIcon(getClass().getResource("/proyectouniversidadulp/vista/fondo.jpg"));
-        Image image = icon.getImage();
-        Escritorio = new javax.swing.JDesktopPane(){
+        try{
+            URL url = new URL("https://i.imgur.com/1t7b9qO.jpg");
+            BufferedImage c = ImageIO.read(url);
+            ImageIcon icon = new ImageIcon(c);
+            Image image = icon.getImage();
+            Escritorio = new javax.swing.JDesktopPane(){
 
-            public void paintComponent(Graphics g){
-                g.drawImage(image,0,0,getWidth(),getHeight(),this);
-            }
+                public void paintComponent(Graphics g){
+                    g.drawImage(image,0,0,getWidth(),getHeight(),this);
+                }
 
-        };
+            };
+        }catch(IOException ex){
+            System.out.println(ex);
+        }
+        ;
         jMenuBar1 = new javax.swing.JMenuBar();
         jmAgregarAlumno = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -65,6 +87,8 @@ public class Menu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1024, 768));
+
+        Escritorio.setForeground(new java.awt.Color(153, 153, 255));
 
         javax.swing.GroupLayout EscritorioLayout = new javax.swing.GroupLayout(Escritorio);
         Escritorio.setLayout(EscritorioLayout);
