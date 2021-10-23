@@ -124,6 +124,9 @@ public class vistaDesinscribirAlumno extends javax.swing.JInternalFrame {
         }catch(ClassNotFoundException ex){
             JOptionPane.showMessageDialog(null,"Error en la conexion" + ex);
         }
+        jcInscripcion.removeAllItems();
+        this.agregarItem();
+        
     }//GEN-LAST:event_jbDesinscribirActionPerformed
     
     private void agregarItem(){
@@ -139,7 +142,7 @@ public class vistaDesinscribirAlumno extends javax.swing.JInternalFrame {
         }catch(ClassNotFoundException ex){
             JOptionPane.showMessageDialog(null, "Error en la conexion " + ex);
         }
-    }
+    }   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

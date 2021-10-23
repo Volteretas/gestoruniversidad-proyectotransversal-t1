@@ -45,7 +45,6 @@ public class vistaEditarMateria extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jbActivar = new javax.swing.JButton();
-        jbDesactivar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
 
         setClosable(true);
@@ -55,10 +54,20 @@ public class vistaEditarMateria extends javax.swing.JInternalFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        jtIdMateria.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtIdMateriaKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtIdMateriaKeyTyped(evt);
+            }
+        });
+
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setText("ID Materia");
 
         jbBuscar.setText("Buscar");
+        jbBuscar.setEnabled(false);
         jbBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbBuscarActionPerformed(evt);
@@ -92,6 +101,29 @@ public class vistaEditarMateria extends javax.swing.JInternalFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jtActivo.setEditable(false);
+        jtActivo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtActivoKeyReleased(evt);
+            }
+        });
+
+        jtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtNombreKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtNombreKeyTyped(evt);
+            }
+        });
+
+        jtAnio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtAnioKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtAnioKeyTyped(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setText("Año");
@@ -138,20 +170,15 @@ public class vistaEditarMateria extends javax.swing.JInternalFrame {
         );
 
         jbActivar.setText("Activar");
+        jbActivar.setEnabled(false);
         jbActivar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbActivarActionPerformed(evt);
             }
         });
 
-        jbDesactivar.setText("Desactivar");
-        jbDesactivar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbDesactivarActionPerformed(evt);
-            }
-        });
-
         jButton1.setText("Actualizar");
+        jButton1.setEnabled(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -174,15 +201,13 @@ public class vistaEditarMateria extends javax.swing.JInternalFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(317, 317, 317))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jbDesactivar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jbActivar)
+                                .addComponent(jbActivar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButton1)
-                                .addGap(19, 19, 19))))))
+                                .addGap(19, 19, 19))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(286, 286, 286))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -196,7 +221,6 @@ public class vistaEditarMateria extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbActivar)
-                    .addComponent(jbDesactivar)
                     .addComponent(jButton1))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
@@ -206,14 +230,29 @@ public class vistaEditarMateria extends javax.swing.JInternalFrame {
 
     private void jbActivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbActivarActionPerformed
         // TODO add your handling code here:
-        try{
+        if("No".equals(jtActivo.getText())){
+            try{
             Conexion conexion = new Conexion();
             MateriaData md = new MateriaData(conexion);
             
             md.activarMateria(Integer.parseInt(jtIdMateria.getText()));
-        }catch(ClassNotFoundException ex){
+            }catch(ClassNotFoundException ex){
             JOptionPane.showMessageDialog(null, "Error al conectar " + ex);
+            }
+            jbBuscarActionPerformed(evt);
+        }else{
+            try{
+            Conexion conexion = new Conexion();
+            MateriaData md = new MateriaData(conexion);
+            
+            md.desactivarMateria(Integer.parseInt(jtIdMateria.getText()));
+            }catch(ClassNotFoundException ex){
+            JOptionPane.showMessageDialog(null, "Error al conectar " + ex);
+            }
+            jbBuscarActionPerformed(evt);
         }
+        
+        
     }//GEN-LAST:event_jbActivarActionPerformed
 
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
@@ -221,47 +260,130 @@ public class vistaEditarMateria extends javax.swing.JInternalFrame {
         try{
             Conexion conexion = new Conexion();
             MateriaData md = new MateriaData(conexion);
-            Materia m = md.buscarMateria(Integer.parseInt(jtIdMateria.getText()));
             
-            jtNombre.setText(m.getNombre());
-            jtAnio.setText(String.valueOf(m.getAnio()));
+            if(md.existeMateria(Integer.parseInt(jtIdMateria.getText()))){
+                Materia m = md.buscarMateria(Integer.parseInt(jtIdMateria.getText()));
             
-            if(m.isActivo()){
-                jtActivo.setText("Si");
+                jtNombre.setText(m.getNombre());
+                jtAnio.setText(String.valueOf(m.getAnio()));
+            
+                if(m.isActivo()){
+                    jtActivo.setText("Si");
+                }else{
+                    jtActivo.setText("No");
+                }
             }else{
-                jtActivo.setText("No");
+                JOptionPane.showMessageDialog(null, "Materia no existe");
             }
-        }catch(ClassNotFoundException ex){
-            JOptionPane.showMessageDialog(null, "Error al conectar " + ex);
-        }
-    }//GEN-LAST:event_jbBuscarActionPerformed
-
-    private void jbDesactivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDesactivarActionPerformed
-        // TODO add your handling code here:
-        try{
-            Conexion conexion = new Conexion();
-            MateriaData md = new MateriaData(conexion);
             
-            md.desactivarMateria(Integer.parseInt(jtIdMateria.getText()));
+            
         }catch(ClassNotFoundException ex){
             JOptionPane.showMessageDialog(null, "Error al conectar " + ex);
         }
-    }//GEN-LAST:event_jbDesactivarActionPerformed
+        
+        renombrarActualizar();
+        activarBotonActualizar();
+        activarBotonActivar();
+    }//GEN-LAST:event_jbBuscarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        try{
+        
+           try{
             Conexion conexion = new Conexion();
             MateriaData md = new MateriaData(conexion);
             Materia m = new Materia(Integer.parseInt(jtIdMateria.getText()),jtNombre.getText(), Integer.parseInt(jtAnio.getText()), true);
             
             md.actualizarMateria(m);
    
-        }catch(ClassNotFoundException ex){
+            }catch(ClassNotFoundException ex){
             JOptionPane.showMessageDialog(null, "Error al conectar " + ex);
-        }
+            }
+           
+            jbBuscarActionPerformed(evt);
+        
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jtIdMateriaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtIdMateriaKeyReleased
+        // TODO add your handling code here:
+        activarBotonActualizar();
+        activarBotonBuscar();
+    }//GEN-LAST:event_jtIdMateriaKeyReleased
+
+    private void jtNombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtNombreKeyReleased
+        // TODO add your handling code here:
+        activarBotonActualizar();
+        activarBotonActivar();
+    }//GEN-LAST:event_jtNombreKeyReleased
+
+    private void jtAnioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtAnioKeyReleased
+        // TODO add your handling code here:
+        activarBotonActualizar();
+        activarBotonActivar();
+    }//GEN-LAST:event_jtAnioKeyReleased
+
+    private void jtActivoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtActivoKeyReleased
+        // TODO add your handling code here:
+        activarBotonActualizar();
+        activarBotonActivar();
+    }//GEN-LAST:event_jtActivoKeyReleased
+
+    private void jtIdMateriaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtIdMateriaKeyTyped
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();
+        if(caracter < '0' || caracter > '9'){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtIdMateriaKeyTyped
+
+    private void jtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtNombreKeyTyped
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();
+        if((caracter < 'a' || caracter > 'z') && (caracter < 'A' || caracter > 'Z') && (caracter != ' ')){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtNombreKeyTyped
+
+    private void jtAnioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtAnioKeyTyped
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();
+        if(caracter < '0' || caracter > '9'){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtAnioKeyTyped
+
+    private void activarBotonActualizar(){
+        if(jtIdMateria.getText().isEmpty() || jtAnio.getText().isEmpty() || jtNombre.getText().isEmpty()){
+            jButton1.setEnabled(false);
+        }else{
+            jButton1.setEnabled(true);
+        }
+    }
+    
+    private void activarBotonActivar(){
+        if(jtIdMateria.getText().isEmpty() || jtAnio.getText().isEmpty() || jtNombre.getText().isEmpty()){
+            jbActivar.setEnabled(false);
+        }else{
+            jbActivar.setEnabled(true);
+        }
+    }
+    
+    private void activarBotonBuscar(){
+        if(jtIdMateria.getText().isEmpty()){
+            jbBuscar.setEnabled(false);
+        }else{
+            jbBuscar.setEnabled(true);
+        }
+    }
+    
+    private void renombrarActualizar(){
+        if("Si".equals(jtActivo.getText())){
+            jbActivar.setText("Desactivar");
+        }else{
+            jbActivar.setText("Activar");
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -274,7 +396,6 @@ public class vistaEditarMateria extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton jbActivar;
     private javax.swing.JButton jbBuscar;
-    private javax.swing.JButton jbDesactivar;
     private javax.swing.JTextField jtActivo;
     private javax.swing.JTextField jtAnio;
     private javax.swing.JTextField jtIdMateria;

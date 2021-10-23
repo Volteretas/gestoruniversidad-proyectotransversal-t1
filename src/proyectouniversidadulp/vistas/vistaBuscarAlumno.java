@@ -62,6 +62,14 @@ public class vistaBuscarAlumno extends javax.swing.JInternalFrame {
                 jtIdActionPerformed(evt);
             }
         });
+        jtId.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtIdKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtIdKeyTyped(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setText("ID Alumno");
@@ -171,7 +179,8 @@ public class vistaBuscarAlumno extends javax.swing.JInternalFrame {
                 .addContainerGap(57, Short.MAX_VALUE))
         );
 
-        jbBuscar.setText("Guardar");
+        jbBuscar.setText("Buscar");
+        jbBuscar.setEnabled(false);
         jbBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbBuscarActionPerformed(evt);
@@ -179,6 +188,11 @@ public class vistaBuscarAlumno extends javax.swing.JInternalFrame {
         });
 
         jbNuevo.setText("Nuevo");
+        jbNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbNuevoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -232,21 +246,27 @@ public class vistaBuscarAlumno extends javax.swing.JInternalFrame {
         try{
             Conexion conexion = new Conexion();
             AlumnoData ad = new AlumnoData(conexion);
-            Alumno a = ad.buscarAlumno(Integer.parseInt(jtId.getText()));
             
-            jtLegajo.setText(String.valueOf(a.getLegajo()));
-            jtNombre.setText(a.getNombre());
-            jtApellido.setText(a.getApellido());
-            jtFecha.setText(a.getFechNac().toString());
+            if(ad.existeAlumno(Integer.parseInt(jtId.getText()))){
+
+                Alumno a = ad.buscarAlumno(Integer.parseInt(jtId.getText()));
             
-            if(a.isActivo()){
-                jtActivo.setText("Si");
+                jtLegajo.setText(String.valueOf(a.getLegajo()));
+                jtNombre.setText(a.getNombre());
+                jtApellido.setText(a.getApellido());
+                jtFecha.setText(a.getFechNac().toString());
+            
+                if(a.isActivo()){
+                    jtActivo.setText("Si");
+                }else{
+                    jtActivo.setText("No");
+                }
             }else{
-                jtActivo.setText("No");
+                JOptionPane.showMessageDialog(null, "Alumno no existe");
             }
             
         }catch(ClassNotFoundException ex){
-            JOptionPane.showMessageDialog(null, "Error al conectar " + ex);
+            JOptionPane.showMessageDialog(null, "Error al conectar ");
         }
     }//GEN-LAST:event_jbBuscarActionPerformed
 
@@ -258,6 +278,36 @@ public class vistaBuscarAlumno extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jtLegajoActionPerformed
 
+    private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
+        // TODO add your handling code here:
+        jtActivo.setText("");
+        jtApellido.setText("");
+        jtFecha.setText("");
+        jtLegajo.setText("");
+        jtNombre.setText("");
+        jtId.setText("");
+    }//GEN-LAST:event_jbNuevoActionPerformed
+
+    private void jtIdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtIdKeyReleased
+        // TODO add your handling code here:
+        activarBotonBuscar();
+    }//GEN-LAST:event_jtIdKeyReleased
+
+    private void jtIdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtIdKeyTyped
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();
+        if(caracter < '0' || caracter > '9'){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtIdKeyTyped
+
+    private void activarBotonBuscar(){
+        if(jtId.getText().isEmpty()){
+            jbBuscar.setEnabled(false);
+        }else{
+            jbBuscar.setEnabled(true);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

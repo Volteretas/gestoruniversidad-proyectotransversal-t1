@@ -27,7 +27,9 @@ public class vistaInscribirAlumno extends javax.swing.JInternalFrame {
      */
     public vistaInscribirAlumno() {
         initComponents();
-        this.agregarItem();
+        this.agregarItemAlumno();
+        jcMateria.removeAllItems();
+        this.agregarItemMateria();
     }
 
     /**
@@ -59,6 +61,12 @@ public class vistaInscribirAlumno extends javax.swing.JInternalFrame {
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setText("Materia");
+
+        jcAlumno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcAlumnoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -131,26 +139,38 @@ public class vistaInscribirAlumno extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void agregarItem(){
+    private void agregarItemAlumno(){
         try{
             Conexion conexion = new Conexion();
             AlumnoData ad = new AlumnoData(conexion);
-            MateriaData md = new MateriaData(conexion);
+            
             ArrayList<Alumno> alumnos = (ArrayList<Alumno>) ad.obtenerAlumnos(true);
         
             for(int i = 0; i < alumnos.size(); i++){
                 jcAlumno.addItem(alumnos.get(i));
             }
         
-            ArrayList<Materia> materias = (ArrayList<Materia>) md.obtenerMateria(true);
-        
+        }catch(ClassNotFoundException ex){
+            JOptionPane.showMessageDialog(null, "Error en la conexion " + ex);
+        }     
+    }
+    
+    private void agregarItemMateria(){
+        try{
+            Conexion conexion = new Conexion();
+            MateriaData md = new MateriaData(conexion);
+            InscripcionData id = new InscripcionData(conexion);
+            Alumno a = (Alumno) jcAlumno.getSelectedItem();
+            
+            ArrayList<Materia> materias = (ArrayList<Materia>) id.obtenerMateriasNoCursadas(a.getIdAlumno());
+            
             for(int i = 0; i < materias.size(); i++){
                 jcMateria.addItem(materias.get(i));
             }
+            
         }catch(ClassNotFoundException ex){
             JOptionPane.showMessageDialog(null, "Error en la conexion " + ex);
         }
-        
     }
     
     private void jbInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbInscribirActionPerformed
@@ -165,7 +185,17 @@ public class vistaInscribirAlumno extends javax.swing.JInternalFrame {
         }catch(ClassNotFoundException ex){
             JOptionPane.showMessageDialog(null, "Error en la conexion " + ex);
         }
+        
+        jcMateria.removeAllItems();
+        this.agregarItemMateria();
+        
     }//GEN-LAST:event_jbInscribirActionPerformed
+
+    private void jcAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcAlumnoActionPerformed
+        // TODO add your handling code here:
+        jcMateria.removeAllItems();
+        this.agregarItemMateria();
+    }//GEN-LAST:event_jcAlumnoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

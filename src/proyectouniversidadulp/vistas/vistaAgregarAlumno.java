@@ -5,6 +5,8 @@
  */
 package proyectouniversidadulp.vistas;
 
+import com.toedter.calendar.JTextFieldDateEditor;
+import java.awt.Color;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -20,12 +22,13 @@ import proyectouniversidadulp.modelo.Conexion;
  * @author Santiago
  */
 public class vistaAgregarAlumno extends javax.swing.JInternalFrame {
-    
+    JTextFieldDateEditor dtEditor;
     /**
      * Creates new form vistaAgregarAlumno
      */
     public vistaAgregarAlumno() {
         initComponents();
+        desactivarEditorJtNacimiento();
     }
 
     /**
@@ -74,6 +77,38 @@ public class vistaAgregarAlumno extends javax.swing.JInternalFrame {
                 jtNombreActionPerformed(evt);
             }
         });
+        jtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtNombreKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtNombreKeyTyped(evt);
+            }
+        });
+
+        jtApellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtApellidoKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtApellidoKeyTyped(evt);
+            }
+        });
+
+        jtLegajo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtLegajoKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtLegajoKeyTyped(evt);
+            }
+        });
+
+        jdFecha.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jdFechaPropertyChange(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -120,6 +155,7 @@ public class vistaAgregarAlumno extends javax.swing.JInternalFrame {
         );
 
         jbGuardar.setText("Guardar");
+        jbGuardar.setEnabled(false);
         jbGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbGuardarActionPerformed(evt);
@@ -127,6 +163,11 @@ public class vistaAgregarAlumno extends javax.swing.JInternalFrame {
         });
 
         jbNuevo.setText("Nuevo");
+        jbNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbNuevoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -188,6 +229,72 @@ public class vistaAgregarAlumno extends javax.swing.JInternalFrame {
    
     }//GEN-LAST:event_jbGuardarActionPerformed
 
+    private void jtLegajoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtLegajoKeyTyped
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();
+        if(caracter < '0' || caracter > '9'){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtLegajoKeyTyped
+
+    private void jtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtNombreKeyTyped
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();
+        if((caracter < 'a' || caracter > 'z') && (caracter < 'A' || caracter > 'Z')){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtNombreKeyTyped
+
+    private void jtApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtApellidoKeyTyped
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();
+        if((caracter < 'a' || caracter > 'z') && (caracter < 'A' || caracter > 'Z')){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtApellidoKeyTyped
+
+    private void jtLegajoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtLegajoKeyReleased
+        // TODO add your handling code here:
+        activarBotonGuardar();
+    }//GEN-LAST:event_jtLegajoKeyReleased
+
+    private void jtNombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtNombreKeyReleased
+        // TODO add your handling code here:
+        activarBotonGuardar();
+    }//GEN-LAST:event_jtNombreKeyReleased
+
+    private void jtApellidoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtApellidoKeyReleased
+        // TODO add your handling code here:
+        activarBotonGuardar();
+    }//GEN-LAST:event_jtApellidoKeyReleased
+
+    private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
+        // TODO add your handling code here:
+        jtApellido.setText("");
+        jtNombre.setText("");
+        jtLegajo.setText("");
+        jdFecha.setDate(null);
+    }//GEN-LAST:event_jbNuevoActionPerformed
+
+    private void jdFechaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jdFechaPropertyChange
+        // TODO add your handling code here:
+        activarBotonGuardar();
+    }//GEN-LAST:event_jdFechaPropertyChange
+    
+    
+    private void activarBotonGuardar(){
+        if(jtApellido.getText().isEmpty() || jtNombre.getText().isEmpty() || jtLegajo.getText().isEmpty() || jdFecha.getDate() == null){
+            jbGuardar.setEnabled(false);
+        }else{
+            jbGuardar.setEnabled(true);
+        }
+    }
+    
+    private void desactivarEditorJtNacimiento(){
+        dtEditor = (JTextFieldDateEditor) jdFecha.getDateEditor();
+        dtEditor.setEditable(false);
+        dtEditor.setBackground(Color.WHITE);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

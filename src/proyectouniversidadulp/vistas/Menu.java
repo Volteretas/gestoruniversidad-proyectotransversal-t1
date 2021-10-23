@@ -6,6 +6,10 @@
 package proyectouniversidadulp.vistas;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.net.URL;
+import javax.swing.ImageIcon;
 import proyectouniversidadulp.modelo.Conexion;
 
 /**
@@ -31,7 +35,15 @@ public class Menu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        Escritorio = new javax.swing.JDesktopPane();
+        ImageIcon icon = new ImageIcon(getClass().getResource("/proyectouniversidadulp/vista/fondo.jpg"));
+        Image image = icon.getImage();
+        Escritorio = new javax.swing.JDesktopPane(){
+
+            public void paintComponent(Graphics g){
+                g.drawImage(image,0,0,getWidth(),getHeight(),this);
+            }
+
+        };
         jMenuBar1 = new javax.swing.JMenuBar();
         jmAgregarAlumno = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -49,7 +61,6 @@ public class Menu extends javax.swing.JFrame {
         jMenuItem11 = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
         jMenuItem13 = new javax.swing.JMenuItem();
-        jMenuItem14 = new javax.swing.JMenuItem();
         jMenuItem15 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -184,14 +195,6 @@ public class Menu extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem13);
-
-        jMenuItem14.setText("Materias no Cursadas");
-        jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem14ActionPerformed(evt);
-            }
-        });
-        jMenu3.add(jMenuItem14);
 
         jMenuItem15.setText("Obtener Inscripciones");
         jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
@@ -419,21 +422,6 @@ public class Menu extends javax.swing.JFrame {
         Escritorio.add(vomc);
     }//GEN-LAST:event_jMenuItem13ActionPerformed
 
-    private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
-        // TODO add your handling code here:
-        Escritorio.removeAll();
-        Escritorio.repaint();
-        vistaObtenerMateriaNoCursadas vomnc = new vistaObtenerMateriaNoCursadas();
-        
-        Dimension escritorioSize = Escritorio.getSize();
-        Dimension vfmSize = vomnc.getSize();
-        
-        vomnc.setLocation((escritorioSize.width - vfmSize.width)/2, (escritorioSize.height - vfmSize.height)/2);
-        
-        vomnc.setVisible(true);
-        Escritorio.add(vomnc);
-    }//GEN-LAST:event_jMenuItem14ActionPerformed
-
     private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
         // TODO add your handling code here:
         Escritorio.removeAll();
@@ -494,7 +482,6 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
-    private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;

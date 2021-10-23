@@ -162,9 +162,14 @@ public class vistaAgregarNota extends javax.swing.JInternalFrame {
             InscripcionData id = new InscripcionData(conexion);
             
             id.agregarNota((Inscripcion) jcInscripcion.getSelectedItem(), (double) jsNota.getValue());
+            
+            JOptionPane.showMessageDialog(null, "Se agrego correctamente");
+            
         }catch(ClassNotFoundException ex){
             JOptionPane.showMessageDialog(null, "Error en la conexion " + ex);
         }
+        jcInscripcion.removeAllItems();
+        this.agregarItem();
     }//GEN-LAST:event_jbGuardarActionPerformed
 
 

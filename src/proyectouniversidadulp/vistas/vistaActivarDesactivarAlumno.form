@@ -34,9 +34,7 @@
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="jbDesactivar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jbActivar" min="-2" pref="83" max="-2" attributes="0"/>
+                      <Component id="jbActivar" min="-2" pref="107" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                       <Component id="jbActualizar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
@@ -62,7 +60,6 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jbActualizar" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jbDesactivar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jbActivar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="15" max="32767" attributes="0"/>
@@ -128,12 +125,17 @@
         <Component class="javax.swing.JButton" name="jbBuscar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Buscar"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbBuscarActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jtID1">
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtID1KeyReleased"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtID1KeyTyped"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -167,11 +169,11 @@
                   </Group>
                   <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jtLegajo" min="-2" pref="261" max="-2" attributes="0"/>
-                      <Component id="jtNombre" min="-2" pref="261" max="-2" attributes="0"/>
+                      <Component id="jtLegajo" pref="261" max="32767" attributes="0"/>
+                      <Component id="jtNombre" pref="261" max="32767" attributes="0"/>
                       <Component id="jtActivo" max="32767" attributes="0"/>
-                      <Component id="jtApellido" min="-2" pref="261" max="-2" attributes="0"/>
-                      <Component id="jtNacimiento" min="-2" pref="261" max="-2" attributes="0"/>
+                      <Component id="jtApellido" pref="261" max="32767" attributes="0"/>
+                      <Component id="jdNacimiento" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="224" max="-2" attributes="0"/>
               </Group>
@@ -202,11 +204,16 @@
                       </Group>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jtNacimiento" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                      <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Component id="jdNacimiento" min="-2" pref="40" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jtActivo" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                       <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -263,34 +270,40 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jtLegajo">
-        </Component>
-        <Component class="javax.swing.JTextField" name="jtNacimiento">
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtLegajoKeyReleased"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtLegajoKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jtNombre">
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtNombreKeyReleased"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtNombreKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jtApellido">
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtApellidoKeyReleased"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtApellidoKeyTyped"/>
+          </Events>
+        </Component>
+        <Component class="com.toedter.calendar.JDateChooser" name="jdNacimiento">
         </Component>
       </SubComponents>
     </Container>
     <Component class="javax.swing.JButton" name="jbActualizar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Actualizar"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbActualizarActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jbDesactivar">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Desactivar"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbDesactivarActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JButton" name="jbActivar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Activar"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbActivarActionPerformed"/>

@@ -135,7 +135,7 @@ public class InscripcionData {
                 inscripcion.setIdInsc(rs.getInt("idInsc"));
                 inscripcion.setAlumno(ad.buscarAlumno(rs.getInt("idAlumno")));
                 inscripcion.setMateria(md.buscarMateria(rs.getInt("idMateria")));
-                inscripcion.setNota(rs.getInt("nota"));
+                inscripcion.setNota(rs.getDouble("nota"));
                 inscripciones.add(inscripcion);
             }
             

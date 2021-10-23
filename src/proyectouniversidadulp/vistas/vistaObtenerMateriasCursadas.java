@@ -41,10 +41,13 @@ public class vistaObtenerMateriasCursadas extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jcAlumnos = new javax.swing.JComboBox<>();
+        jrCursadas = new javax.swing.JRadioButton();
+        jrNoCursadas = new javax.swing.JRadioButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtMateria = new javax.swing.JTable();
@@ -65,15 +68,38 @@ public class vistaObtenerMateriasCursadas extends javax.swing.JInternalFrame {
             }
         });
 
+        buttonGroup1.add(jrCursadas);
+        jrCursadas.setText("Cursadas");
+        jrCursadas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jrCursadasActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(jrNoCursadas);
+        jrNoCursadas.setText("No cursadas");
+        jrNoCursadas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jrNoCursadasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(237, 237, 237)
-                .addComponent(jLabel2)
-                .addGap(35, 35, 35)
-                .addComponent(jcAlumnos, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(237, 237, 237)
+                        .addComponent(jLabel2)
+                        .addGap(35, 35, 35)
+                        .addComponent(jcAlumnos, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(284, 284, 284)
+                        .addComponent(jrCursadas)
+                        .addGap(44, 44, 44)
+                        .addComponent(jrNoCursadas)))
                 .addContainerGap(237, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -83,7 +109,11 @@ public class vistaObtenerMateriasCursadas extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jcAlumnos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jrCursadas)
+                    .addComponent(jrNoCursadas))
+                .addGap(20, 20, 20))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -113,10 +143,10 @@ public class vistaObtenerMateriasCursadas extends javax.swing.JInternalFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -143,7 +173,7 @@ public class vistaObtenerMateriasCursadas extends javax.swing.JInternalFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         pack();
@@ -154,9 +184,23 @@ public class vistaObtenerMateriasCursadas extends javax.swing.JInternalFrame {
         this.borrarFila();
         this.llenarTabla();   
     }//GEN-LAST:event_jcAlumnosActionPerformed
+
+    private void jrCursadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrCursadasActionPerformed
+        // TODO add your handling code here:
+        this.borrarFila();
+        this.llenarTabla();
+    }//GEN-LAST:event_jrCursadasActionPerformed
+
+    private void jrNoCursadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrNoCursadasActionPerformed
+        // TODO add your handling code here:
+        this.borrarFila();
+        this.llenarTabla();
+    }//GEN-LAST:event_jrNoCursadasActionPerformed
     
     private void llenarTabla(){
-        try{
+        
+        if(jrCursadas.isSelected()){
+            try{
             Conexion conexion = new Conexion();
             InscripcionData id = new InscripcionData(conexion);
             String activo;
@@ -172,9 +216,41 @@ public class vistaObtenerMateriasCursadas extends javax.swing.JInternalFrame {
                 }
                 modelo.addRow(new Object[]{mat.getIdMateria(), mat.getNombre(), mat.getAnio(), activo});
             
-        }
-        }catch(ClassNotFoundException ex){
+            }
+            }catch(ClassNotFoundException ex){
             JOptionPane.showMessageDialog(null, "Error en la conexion " + ex);
+            }
+        }else if(jrNoCursadas.isSelected()){
+            try{
+            Conexion conexion = new Conexion();
+            InscripcionData id = new InscripcionData(conexion);
+            String activo;
+            Alumno alumno = (Alumno) jcAlumnos.getSelectedItem();
+            
+            ArrayList<Materia> materias = (ArrayList<Materia>) id.obtenerMateriasNoCursadas(alumno.getIdAlumno());
+            
+            for(Materia mat: materias){
+                if(mat.isActivo()){
+                    activo = "Si";
+                }else{
+                    activo = "No";
+                }
+                modelo.addRow(new Object[]{mat.getIdMateria(), mat.getNombre(), mat.getAnio(), activo});
+            
+            }
+            }catch(ClassNotFoundException ex){
+            JOptionPane.showMessageDialog(null, "Error en la conexion " + ex);
+            }
+        }
+        
+        
+    }
+    
+    private void desactivarRadio(){
+        if(jrNoCursadas.isSelected()){
+            jrCursadas.setSelected(false);
+        }else if(jrCursadas.isSelected()){
+            jrCursadas.setSelected(false);
         }
     }
     
@@ -219,12 +295,15 @@ public class vistaObtenerMateriasCursadas extends javax.swing.JInternalFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<Alumno> jcAlumnos;
+    private javax.swing.JRadioButton jrCursadas;
+    private javax.swing.JRadioButton jrNoCursadas;
     private javax.swing.JTable jtMateria;
     // End of variables declaration//GEN-END:variables
 }

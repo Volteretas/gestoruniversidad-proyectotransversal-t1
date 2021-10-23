@@ -56,6 +56,15 @@ public class vistaBuscarMateria extends javax.swing.JInternalFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setText("ID Materia");
 
+        jtId1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtId1KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtId1KeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -135,6 +144,7 @@ public class vistaBuscarMateria extends javax.swing.JInternalFrame {
         );
 
         jbBuscar.setText("Buscar");
+        jbBuscar.setEnabled(false);
         jbBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbBuscarActionPerformed(evt);
@@ -142,6 +152,11 @@ public class vistaBuscarMateria extends javax.swing.JInternalFrame {
         });
 
         jbNuevo.setText("Nuevo");
+        jbNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbNuevoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -192,22 +207,58 @@ public class vistaBuscarMateria extends javax.swing.JInternalFrame {
         try{
             Conexion conexion = new Conexion();
             MateriaData md = new MateriaData(conexion);
-            Materia m = md.buscarMateria(Integer.parseInt(jtId1.getText()));
             
-            jtNombre.setText(m.getNombre());
-            jtAnio.setText(String.valueOf(m.getAnio()));
+            if(md.existeMateria(Integer.parseInt(jtId1.getText()))){
+                Materia m = md.buscarMateria(Integer.parseInt(jtId1.getText()));
             
-            if(m.isActivo()){
-                jtActivo.setText("Si");
+                jtNombre.setText(m.getNombre());
+                jtAnio.setText(String.valueOf(m.getAnio()));
+            
+                if(m.isActivo()){
+                    jtActivo.setText("Si");
+                }else{
+                    jtActivo.setText("No");
+                }
             }else{
-                jtActivo.setText("No");
+                JOptionPane.showMessageDialog(null, "Materia no existe");
             }
+            
+            
                      
         }catch(ClassNotFoundException ex){
             JOptionPane.showMessageDialog(null, "Error al conectar " + ex);
         }
     }//GEN-LAST:event_jbBuscarActionPerformed
 
+    private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
+        // TODO add your handling code here:
+        jtActivo.setText("");
+        jtAnio.setText("");
+        jtId1.setText("");
+        jtNombre.setText("");
+        activarBotonBuscar();
+    }//GEN-LAST:event_jbNuevoActionPerformed
+
+    private void jtId1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtId1KeyReleased
+        // TODO add your handling code here:
+        activarBotonBuscar();
+    }//GEN-LAST:event_jtId1KeyReleased
+
+    private void jtId1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtId1KeyTyped
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();
+        if(caracter < '0' || caracter > '9'){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtId1KeyTyped
+
+    private void activarBotonBuscar(){
+        if(jtId1.getText().isEmpty()){
+            jbBuscar.setEnabled(false);
+        }else{
+            jbBuscar.setEnabled(true);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

@@ -53,10 +53,26 @@ public class vistaAgregarMateria extends javax.swing.JInternalFrame {
                 jtAnioActionPerformed(evt);
             }
         });
+        jtAnio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtAnioKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtAnioKeyTyped(evt);
+            }
+        });
 
         jtMateria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtMateriaActionPerformed(evt);
+            }
+        });
+        jtMateria.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtMateriaKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtMateriaKeyTyped(evt);
             }
         });
 
@@ -96,8 +112,14 @@ public class vistaAgregarMateria extends javax.swing.JInternalFrame {
         );
 
         jbNuevo.setText("Nuevo");
+        jbNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbNuevoActionPerformed(evt);
+            }
+        });
 
         jbGuardar.setText("Guardar");
+        jbGuardar.setEnabled(false);
         jbGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbGuardarActionPerformed(evt);
@@ -159,14 +181,53 @@ public class vistaAgregarMateria extends javax.swing.JInternalFrame {
             Materia materia = new Materia(jtMateria.getText(), Integer.parseInt(jtAnio.getText()), true);
             
             md.agregarMateria(materia);
-            
-            JOptionPane.showMessageDialog(null, "Agregado Correctamente");
+      
             
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "Error al conectar " + ex);
         }
     }//GEN-LAST:event_jbGuardarActionPerformed
 
+    private void jtMateriaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtMateriaKeyReleased
+        // TODO add your handling code here:
+        activarBotonGuardar();
+    }//GEN-LAST:event_jtMateriaKeyReleased
+
+    private void jtAnioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtAnioKeyReleased
+        // TODO add your handling code here:
+        activarBotonGuardar();
+    }//GEN-LAST:event_jtAnioKeyReleased
+
+    private void jtAnioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtAnioKeyTyped
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();
+        if(caracter < '0' || caracter > '9'){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtAnioKeyTyped
+
+    private void jtMateriaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtMateriaKeyTyped
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();
+        if((caracter < 'a' || caracter > 'z') && (caracter < 'A' || caracter > 'Z') && (caracter != ' ')){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtMateriaKeyTyped
+
+    private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
+        // TODO add your handling code here:
+        jtAnio.setText("");
+        jtMateria.setText("");
+    }//GEN-LAST:event_jbNuevoActionPerformed
+
+    private void activarBotonGuardar(){
+        if(jtAnio.getText().isEmpty() || jtMateria.getText().isEmpty()){
+            jbGuardar.setEnabled(false);
+        }else{
+            jbGuardar.setEnabled(true);
+        }
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

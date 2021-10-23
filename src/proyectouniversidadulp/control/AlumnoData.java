@@ -47,7 +47,11 @@ public class AlumnoData {
             ps.setInt(2, id);
             ps.executeUpdate();
             ps.close();
+            
+            JOptionPane.showMessageDialog(null, "Se desactivo correctamente");
+            
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al desacticar");
             System.out.println("Error al desactivar "+ex);
         }
     }
@@ -60,8 +64,11 @@ public class AlumnoData {
             ps.setInt(2, id);
             ps.executeUpdate();
             
+            JOptionPane.showMessageDialog(null, "Se activo correctamente");
+            
         } catch (SQLException ex) {
-            System.out.println("Error al desactivar "+ex);
+            JOptionPane.showMessageDialog(null, "Error al activar");
+            System.out.println("Error al activar "+ex);
         }
     }
 
@@ -84,6 +91,7 @@ public class AlumnoData {
              alumno.setIdAlumno(rs.getInt(1));
             }
             ps.close();
+            JOptionPane.showMessageDialog(null, "Se agrego correctamente");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al insertar " + ex);
             System.out.println("Error al insertar "+ex);
@@ -108,9 +116,10 @@ public class AlumnoData {
             
             ps.close();
             
-            JOptionPane.showMessageDialog(null, "Se agrego correctamente");
+            JOptionPane.showMessageDialog(null, "Se actualizo correctamente");
             
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al modificar " + ex);
             System.out.println("Error al modificar "+ex);
         }
         
@@ -190,7 +199,7 @@ public class AlumnoData {
     
     String sql="SELECT * FROM alumno WHERE idAlumno=?";
     
-        try {
+      try {
             PreparedStatement ps= con.prepareStatement(sql);
             ps.setInt(1, id);
             
@@ -204,14 +213,35 @@ public class AlumnoData {
                 alumno.setFechNac(rs.getDate(5).toLocalDate());  //date a LocalDate
                 alumno.setActivo(rs.getBoolean(6));
             }
-            
-            
-            
-            
+ 
+            ps.close();
         } catch (SQLException ex) {
-            System.out.println("Error al buscar ");
-        }    
-       return alumno;    
-       
+            JOptionPane.showMessageDialog(null, "Error al buscar " + ex);
+            System.out.println("Error al buscar " + ex);
+        }     
+       return alumno;   
+    }
+    
+    public boolean existeAlumno(int id){
+        String sql="SELECT * FROM alumno WHERE idAlumno=?;";
+        boolean existe = false;
+        try{
+            PreparedStatement ps= con.prepareStatement(sql);
+            ps.setInt(1, id);
+            
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                if(rs.getString("nombre") == null){
+                existe = false;
+            }else{
+                existe = true;
+            }
+            }
+            
+            ps.close();
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, "Error al comprobar " + ex);
+        }
+        return existe;
     }
 }

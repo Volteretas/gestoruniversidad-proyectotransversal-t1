@@ -77,6 +77,7 @@ public class MateriaData {
                 materia.setIdMateria(rs.getInt("idMateria"));
             }
             ps.close();
+            JOptionPane.showMessageDialog(null, "Agregado Correctamente");
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(null, "Error al insertar el registro " + ex);
         }
@@ -180,6 +181,27 @@ public class MateriaData {
             System.out.println("Error al buscar materia");
         }
         return materia;
+    }
+    
+    public boolean existeMateria(int idMateria){
+        String sql= "SELECT * FROM materia WHERE idMateria=?;";
+        boolean existe = false;
+        try{
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idMateria);
+            
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                if(rs.getString("nombre") == null){
+                    existe = false;
+                }else{
+                    existe = true;
+                }
+            }
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, "Error al comprobar " + ex);
+        }
+        return existe;
     }
     
 }
