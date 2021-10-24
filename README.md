@@ -7,7 +7,7 @@ Sistema para poder llevar el registro de los alumnos de la institucion y las mat
 
 Permite guardar informacion en una base de datos local.
 
-![alt text](https://i.imgur.com/JGEAirJ.png)
+![alt text](https://i.imgur.com/dkCl8G3.png)
 
 # Funcionalidad
 ![alt text](https://i.imgur.com/AEPRrzG.png)
